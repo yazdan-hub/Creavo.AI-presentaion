@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Creavo.AI - Presentation Website (Aesthetic Light Theme) -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creavo.AI | The Future of Creation</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind for custom theme and font -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // NEW: Light Lavender/Soft Off-White Background
+                        'deep-indigo': '#F4F0FF', 
+                        // NEW: Light Translucent Card Background for Frosted Glass Effect
+                        'card-indigo': 'rgba(255, 255, 255, 0.7)', 
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Inter Font Import -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* Apply smooth scroll-snap behavior */
+        .scroll-snap-container {
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Animated Background Grid (Subtle on light background) */
+        .scroll-snap-container::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Repeating linear gradient with light colors */
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(139, 92, 246, 0.04), /* Tailwind violet-500 at 4% opacity */
+                rgba(139, 92, 246, 0.04) 1px,
+                transparent 1px,
+                transparent 50px
+            ), repeating-linear-gradient(
+                90deg,
+                rgba(139, 92, 246, 0.04),
+                rgba(139, 92, 246, 0.04) 1px,
+                transparent 1px,
+                transparent 50px
+            );
+            animation: background-move 60s linear infinite;
+            opacity: 0.1; 
+            z-index: -2; /* Set to -2 to be behind blobs */
+        }
+
+        @keyframes background-move {
+            from { background-position: 0 0; }
+            to { background-position: 50px 50px; }
+        }
+        
+        /* Flowing Gradient Blob Animation */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; 
+            overflow: hidden;
+        }
+
+        .blob-1, .blob-2 {
+            position: absolute;
+            width: 50vw; 
+            height: 50vw; 
+            max-width: 600px;
+            max-height: 600px;
+            border-radius: 50%;
+            filter: blur(120px); /* Increased blur for softness */
+            opacity: 0.3; /* Adjusted opacity for light background */
+            animation-duration: 35s;
+            animation-iteration-count: infinite;
+            animation-timing-function: ease-in-out;
+        }
+
+        .blob-1 {
+            background: radial-gradient(circle, #EC4899 0%, transparent 70%); /* Pink Glow */
+            top: 10%;
+            left: 5%;
+            animation-name: move-blob-1;
+        }
+
+        .blob-2 {
+            background: radial-gradient(circle, #8B5CF6 0%, transparent 70%); /* Violet Glow */
+            bottom: 15%;
+            right: 10%;
+            animation-name: move-blob-2;
+        }
+
+        /* Animation Keyframes for smooth, flowing movement */
+        @keyframes move-blob-1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            30% { transform: translate(30vw, -10vh) scale(1.1); }
+            60% { transform: translate(-10vw, 20vh) scale(0.9); }
+        }
+
+        @keyframes move-blob-2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            40% { transform: translate(-20vw, 15vh) scale(1.2); }
+            75% { transform: translate(15vw, -5vh) scale(1); }
+        }
+
+        .scroll-snap-section {
+            scroll-snap-align: start;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 4rem 1rem;
+        }
+
+        /* NEW: Light Glass Card Styling */
+        .glass-card {
+            background-color: var(--card-indigo, rgba(255, 255, 255, 0.7)); 
+            backdrop-filter: blur(10px); /* Increased blur for "Frosted" look */
+            border: 1px solid rgba(139, 92, 246, 0.3); /* Violet border */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05), 0 10px 20px rgba(0, 0, 0, 0.02); /* Subtle dark shadow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(236, 72, 153, 0.1), 0 15px 30px rgba(139, 92, 246, 0.1); 
+        }
+
+        /* Gradient Button (no change needed here) */
+        .gradient-button {
+            background-image: linear-gradient(to right, #8B5CF6 0%, #EC4899 50%, #F97316 100%);
+            background-size: 200% auto; 
+            border: none;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 15px rgba(236, 72, 153, 0.4), 0 0 10px rgba(139, 92, 246, 0.3);
+            transition: all 0.4s ease;
+        }
+
+        .gradient-button:hover {
+            background-position: right center; 
+            box-shadow: 0 0 30px rgba(236, 72, 153, 0.7), 0 0 20px rgba(139, 92, 246, 0.5);
+            transform: scale(1.05); 
+        }
+    </style>
+</head>
+<!-- NEW: Switched body background to light lavender and text to dark gray -->
+<body class="bg-deep-indigo text-gray-800 font-sans">
+
+    <!-- Animated Blob Container -->
+    <div class="bg-animation hidden lg:block">
+        <div class="blob-1"></div>
+        <div class="blob-2"></div>
+    </div>
+
+    <!-- Navigation Menu (Fixed at top) -->
+    <!-- NEW: Updated navigation to light background and dark text -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-deep-indigo bg-opacity-95 backdrop-blur-sm shadow-md border-b border-violet-300/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <!-- NEW: Logo text gradient is darker for contrast -->
+                    <a href="#hero" class="text-2xl font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-violet-700 to-pink-700">
+                        Creavo.AI
+                    </a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <!-- NEW: Nav links are dark gray/purple -->
+                        <a href="#vision" class="text-gray-700 hover:text-violet-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Vision</a>
+                        <a href="#features" class="text-gray-700 hover:text-violet-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Features</a>
+                        <a href="#process" class="text-gray-700 hover:text-violet-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Process</a>
+                        <a href="#contact" class="text-gray-700 hover:text-violet-600 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Scroll Container -->
+    <div class="scroll-snap-container">
+
+        <!-- SECTION 1: HERO / TITLE SLIDE -->
+        <section id="hero" class="scroll-snap-section bg-deep-indigo">
+            <div class="text-center max-w-4xl px-4">
+                <!-- Main title gradient is still bright to pop -->
+                <h1 class="text-6xl sm:text-7xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-violet-600 via-pink-600 to-orange-500 animate-pulse">
+                    Creavo.AI
+                </h1>
+                <!-- Text color changed to dark -->
+                <h2 class="text-4xl sm:text-5xl font-light text-gray-800 mb-6">
+                    The Future of Creation.
+                </h2>
+                <p class="text-xl sm:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto">
+                    The revolutionary platform for building entire applications and websites using natural language **Prompts**.
+                </p>
+                <a href="#vision" class="gradient-button inline-block px-8 py-3 text-lg font-semibold rounded-full shadow-lg">
+                    Explore the Vision
+                </a>
+            </div>
+        </section>
+
+        <!-- SECTION 2: THE VISION / PROBLEM -->
+        <section id="vision" class="scroll-snap-section bg-deep-indigo">
+            <div class="glass-card max-w-5xl mx-auto p-8 md:p-12 rounded-2xl">
+                <!-- NEW: Updated heading color to dark violet -->
+                <h2 class="text-4xl md:text-5xl font-bold text-violet-700 mb-6 border-b border-violet-500/50 pb-2">
+                    Our Vision: The Next Evolution of Code Generation
+                </h2>
+                <!-- Text color changed to dark gray -->
+                <div class="text-gray-800 space-y-6 text-lg md:text-xl">
+                    <p>
+                        Building modern websites and applications is still a complex and time-consuming task, often requiring expertise across multiple languages and tools. **Creavo.AI completely transforms this process.**
+                    </p>
+                    <div class="flex items-start space-x-4">
+                        <!-- Icon color updated to darker teal -->
+                        <svg class="w-8 h-8 text-teal-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1v-3.25M7 11.25l2.5 2.5m1-1l4 4m-8-8l2.5 2.5m-4 4l.5.5m-5-2.5l2.5 2.5"></path></svg>
+                        <p>
+                            Our goal is to enable **anyone** to instantly generate a fully functional, production-ready, and self-contained application using only a simple text prompt, just like you would on a tool like ChatGPT.
+                        </p>
+                    </div>
+                    <!-- Highlight text changed to dark Pink -->
+                    <p class="text-pink-600 font-semibold">
+                        This will be the biggest tool for the coming generation, where the technical complexity of development ends, and only **creativity and immediate deployment** remain.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: KEY FEATURES -->
+        <section id="features" class="scroll-snap-section bg-deep-indigo">
+            <div class="max-w-7xl mx-auto p-4">
+                <!-- Heading color updated -->
+                <h2 class="text-4xl md:text-5xl font-bold text-center text-violet-700 mb-12">
+                    Core Features
+                </h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+
+                    <!-- Feature 1: Prompt-to-App -->
+                    <div class="glass-card p-6 rounded-xl text-center">
+                        <!-- Icon color updated to dark Teal -->
+                        <svg class="w-12 h-12 mb-4 mx-auto text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 17v4m-4.663-8v-2a6 6 0 0112 0v2m-6 3h.01M5.663 17h12.673A4.663 4.663 0 0118 20.337H6A4.663 4.663 0 015.663 17z"/></svg>
+                        <!-- Text color changed to dark -->
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-3">Natural Prompt-to-App</h3>
+                        <p class="text-gray-600">
+                            Simply provide a text prompt describing your desired application, and Creavo.AI will generate the complete, production-ready code.
+                        </p>
+                    </div>
+
+                    <!-- Feature 2: Full Stack Solution -->
+                    <div class="glass-card p-6 rounded-xl text-center">
+                        <!-- Icon color updated to dark Teal -->
+                        <svg class="w-12 h-12 mb-4 mx-auto text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7L4 7m16 4L4 4m16 11L4 11m16 4L4 18M4 21h16"/></svg>
+                         <!-- Text color changed to dark -->
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-3">Comprehensive Full-Stack</h3>
+                        <p class="text-gray-600">
+                            Frontend, Backend, APIs, and database architecture—everything required for a modern application is built automatically.
+                        </p>
+                    </div>
+
+                    <!-- Feature 3: Language Versatility -->
+                    <div class="glass-card p-6 rounded-xl text-center">
+                        <!-- Icon color updated to dark Teal -->
+                        <svg class="w-12 h-12 mb-4 mx-auto text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3h8M4 7h16M7 21h10m-8-2v-4m4 4v-4m-12 1h16a1 1 0 001-1v-8a1 1 0 00-1-1H4a1 1 0 00-1 1v8a1 1 0 001 1z"/></svg>
+                         <!-- Text color changed to dark -->
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-3">200+ Language Support</h3>
+                        <p class="text-gray-600">
+                            Generates code using over **200 programming languages** and frameworks, giving users unparalleled flexibility.
+                        </p>
+                    </div>
+
+                    <!-- Feature 4: Debugging & Error Fix -->
+                    <div class="glass-card p-6 rounded-xl text-center">
+                        <!-- Icon color updated to dark Teal -->
+                        <svg class="w-12 h-12 mb-4 mx-auto text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                         <!-- Text color changed to dark -->
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-3">Auto-Debugging & Fixes</h3>
+                        <p class="text-gray-600">
+                            The AI automatically detects and fixes all errors, bugs, and security vulnerabilities before delivering the final code.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: THE PROCESS / CALL TO ACTION -->
+        <section id="process" class="scroll-snap-section bg-deep-indigo">
+            <div class="glass-card max-w-3xl mx-auto p-8 md:p-12 rounded-2xl text-center">
+                <!-- Heading color updated -->
+                <h2 class="text-4xl md:text-5xl font-bold text-violet-700 mb-6">
+                    The Process: Copy, Paste, Deploy
+                </h2>
+                <!-- Text color changed to dark -->
+                <div class="text-gray-800 space-y-6 text-xl">
+                    <p>
+                        Creavo.AI handles the entire complex development lifecycle, delivering only the final, clean, and fully functional code to you.
+                    </p>
+                    <ul class="list-none space-y-3 text-left max-w-sm mx-auto">
+                        <li class="flex items-center text-lg">
+                            <span class="text-violet-700 mr-3 text-2xl font-bold">1.</span> Input the Prompt
+                        </li>
+                        <li class="flex items-center text-lg">
+                            <span class="text-violet-700 mr-3 text-2xl font-bold">2.</span> AI Generates Complete Code
+                        </li>
+                        <li class="flex items-center text-lg">
+                            <span class="text-violet-700 mr-3 text-2xl font-bold">3.</span> Copy the Code
+                        </li>
+                        <li class="flex items-center text-lg font-bold text-teal-600"> <!-- Highlight color changed -->
+                            <span class="text-violet-700 mr-3 text-2xl font-bold">4.</span> Paste and Deploy!
+                        </li>
+                    </ul>
+                </div>
+                <div class="mt-10">
+                    <a href="#contact" class="gradient-button inline-block px-8 py-3 text-lg font-semibold rounded-full shadow-lg">
+                        Discuss Investment Opportunities
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: CONTACT -->
+        <section id="contact" class="scroll-snap-section bg-deep-indigo">
+            <div class="glass-card max-w-4xl mx-auto p-8 md:p-12 rounded-2xl text-center">
+                <!-- Heading color updated -->
+                <h2 class="text-4xl md:text-5xl font-bold text-violet-700 mb-6">
+                    Contact Us
+                </h2>
+                <!-- Text color changed to dark -->
+                <p class="text-xl text-gray-800 mb-8">
+                    To partner in the future of Creavo.AI or for more information, please get in touch.
+                </p>
+
+                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-8">
+                    <!-- LinkedIn Contact -->
+                    <!-- Text color changed to dark -->
+                    <a href="https://www.linkedin.com/in/md-yazdan-00167128a/" target="_blank" class="glass-card p-4 rounded-xl flex items-center justify-center text-lg font-medium text-gray-700 hover:text-violet-700 transition duration-300">
+                        <!-- Icon color updated -->
+                        <svg class="w-6 h-6 mr-2 text-violet-700" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.565-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.793 7 3.235v6.002z"/></svg>
+                        LinkedIn 
+                    </a>
+
+                    <!-- Instagram Contact -->
+                    <!-- Text color changed to dark -->
+                    <a href="https://www.instagram.com/moondrift_1/" target="_blank" class="glass-card p-4 rounded-xl flex items-center justify-center text-lg font-medium text-gray-700 hover:text-violet-700 transition duration-300">
+                        <!-- Icon color updated -->
+                        <svg class="w-6 h-6 mr-2 text-violet-700" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c-3.725 0-4.183.016-5.64.081a8.55 8.55 0 00-2.812.54c-1.127.447-2.074 1.394-2.521 2.521a8.55 8.55 0 00-.54 2.812c-.065 1.457-.081 1.915-.081 5.64s.016 4.183.081 5.64a8.55 8.55 0 00.54 2.812c.447 1.127 1.394 2.074 2.521 2.521a8.55 8.55 0 002.812.54c1.457.065 1.915.081 5.64.081s4.183-.016 5.64-.081a8.55 8.55 0 002.812-.54c1.127-.447 2.074-1.394 2.521-2.521a8.55 8.55 0 00.54-2.812c.065-1.457.081-1.915.081-5.64s-.016-4.183-.081-5.64a8.55 8.55 0 00-.54-2.812c-.447-1.127-1.394-2.074-2.521-2.521a8.55 8.55 0 00-2.812-.54c-1.457-.065-1.915-.081-5.64-.081zm0 3c3.673 0 4.09.014 5.5.076 1.407.062 2.115.3 2.724.536.634.248 1.177.58 1.701 1.104s.856 1.067 1.104 1.701c.236.609.474 1.317.536 2.724.062 1.41.076 1.828.076 5.5s-.014 4.09-.076 5.5c-.062 1.407-.3 2.115-.536 2.724-.248.634-.58 1.177-1.104 1.701s-1.067.856-1.701 1.104c-.609.236-1.317.474-2.724.536-1.41.062-1.828.076-5.5.076s-4.09-.014-5.5-.076c-1.407-.062-2.115-.3-2.724-.536-.634-.248-1.177-.58-1.701-1.104s-.856-1.067-1.104-1.701c-.236-.609-.474-1.317-.536-2.724-.062-1.41-.076-1.828-.076-5.5s.014-4.09.076 5.5c.062-1.407.3-2.115.536-2.724.248.634.58 1.177 1.104 1.701s1.067-.856 1.701-1.104c.609.236 1.317.474 2.724.536 1.41-.062 1.828.076 5.5-.076zm0 4.148a4.852 4.852 0 100 9.704 4.852 4.852 0 000-9.704zM12 16.5a3 3 0 110-6 3 3 0 010 6zM20.25 7a.75.75 0 100-1.5.75.75 0 000 1.5z"/></svg>
+                        Instagram 
+                    </a>
+                </div>
+
+                <p class="mt-10 text-gray-500 text-sm">
+                    © 2024 Creavo.AI. All rights reserved.
+                </p>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- JavaScript for smooth navigation (optional, scroll-snap handles most of it) -->
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                // Check if the link is not to the top hero section
+                if (this.getAttribute('href') !== '#hero') {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </SCriPT>
+</body>
+</html>
